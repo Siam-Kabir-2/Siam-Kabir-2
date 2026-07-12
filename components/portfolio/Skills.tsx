@@ -5,7 +5,7 @@ import { marqueeRowOne, marqueeRowTwo, specialties } from "./skill-stack";
 
 export function Skills() {
   return (
-    <section id="skills" className="relative overflow-hidden py-24 sm:py-28">
+    <section id="skills" className="relative overflow-hidden py-16 sm:py-24 lg:py-28">
       <div
         className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_70%_50%_at_50%_0%,color-mix(in_oklab,var(--primary)_6%,transparent),transparent_65%)]"
         aria-hidden
@@ -23,7 +23,7 @@ export function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ duration: 0.55, ease: [0.22, 1, 0.36, 1] }}
-          className="relative rounded-2xl border border-border/60 bg-card/30 px-2 py-5 backdrop-blur-sm sm:px-4 sm:py-6"
+          className="relative rounded-2xl border border-border/60 bg-card/30 px-1 py-4 backdrop-blur-sm sm:px-4 sm:py-6"
         >
           <SkillMarquee rowOne={marqueeRowOne} rowTwo={marqueeRowTwo} />
         </motion.div>
@@ -33,7 +33,7 @@ export function Skills() {
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true, margin: "-40px" }}
           transition={{ delay: 0.1, duration: 0.45 }}
-          className="mx-auto mt-10 max-w-3xl text-center font-mono text-[11px] uppercase leading-relaxed tracking-[0.14em] text-muted-foreground"
+          className="mx-auto mt-8 max-w-3xl px-2 text-center font-mono text-[10px] uppercase leading-relaxed tracking-[0.12em] text-muted-foreground sm:mt-10 sm:px-0 sm:text-[11px] sm:tracking-[0.14em]"
         >
           Also experienced in{" "}
           <span className="text-foreground/70">{specialties.join(" · ")}</span>

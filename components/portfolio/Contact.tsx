@@ -1,11 +1,22 @@
-import { useState } from "react";
-import { motion } from "motion/react";
-import { Mail, Phone, Linkedin, MapPin, Send, Github, Instagram } from "lucide-react";
+"use client";
+
+import { useRef, useState } from "react";
+import {
+  Mail,
+  Phone,
+  Linkedin,
+  MapPin,
+  Send,
+  Github,
+  Instagram,
+  ArrowUpRight,
+} from "lucide-react";
+import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { SectionHeader } from "./SectionHeader";
 import { toast } from "sonner";
 
 const XIcon = ({ size = 16 }: { size?: number }) => (
-  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor">
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
     <path d="M18.244 2H21l-6.52 7.451L22 22h-6.828l-4.77-6.243L4.8 22H2l7.02-8.02L2 2h6.914l4.34 5.74L18.244 2Zm-2.39 18h1.66L8.24 4H6.475l9.379 16Z" />
   </svg>
 );
@@ -42,127 +53,218 @@ const socials = [
 
 export function Contact() {
   const [sending, setSending] = useState(false);
+  const sectionRef = useRef<HTMLElement>(null);
+  const panelRef = useRef<HTMLDivElement>(null);
 
-  const onSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    const data = new FormData(e.currentTarget);
-    const name = String(data.get("name") || "");
-    const email = String(data.get("email") || "");
-    const subject = String(data.get("subject") || "");
-    const message = String(data.get("message") || "");
-    if (!name || !email || !message) {
-      toast.error("Please fill in name, email, and message.");
-      return;
-    }
-    setSending(true);
+  useGSAP(
+    () => {
+      const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+      if (reducedMotion || !panelRef.current) return;
+
+      gsap.from(panelRef.current.children, {
+        opacity: 0,
+        y: 28,
+        duration: 0.75,
+        stagger: 0.1,
+        ease: "power3.out",
+        scrollTrigger: {
+          trigger: panelRef.current,
+          start: "top 86%",
+          once: true,
+        },
+      });
+
+      ScrollTrigger.refresh();
+    },
+    { scope: sectionRef },
+  );
+
+  const openMailtoFallback = (name: string, email: string, subject: string, message: string) => {
     const body = encodeURIComponent(`Name: ${name}\nEmail: ${email}\n\n${message}`);
     const url = `mailto:mdsiamkabir1@gmail.com?subject=${encodeURIComponent(
       subject || `New message from ${name}`,
     )}&body=${body}`;
     window.location.href = url;
-    setTimeout(() => {
+    toast.success("Opening your email app…");
+  };
+
+  const onSubmit = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+    const form = e.currentTarget;
+    const data = new FormData(form);
+    const name = String(data.get("name") || "").trim();
+    const email = String(data.get("email") || "").trim();
+    const subject = String(data.get("subject") || "").trim();
+    const message = String(data.get("message") || "").trim();
+
+    if (!name || !email || !message) {
+      toast.error("Please fill in name, email, and message.");
+      return;
+    }
+
+    setSending(true);
+
+    try {
+      const response = await fetch("/api/contact", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ name, email, subject, message }),
+      });
+
+      const result = (await response.json()) as { error?: string; fallback?: string };
+
+      if (response.ok) {
+        form.reset();
+        toast.success("Message sent. I'll get back to you soon.");
+        return;
+      }
+
+      if (response.status === 503 && result.fallback === "mailto") {
+        openMailtoFallback(name, email, subject, message);
+        return;
+      }
+
+      toast.error(result.error || "Could not send message. Try email or WhatsApp instead.");
+    } catch {
+      toast.error("Could not send message. Try email or WhatsApp instead.");
+    } finally {
       setSending(false);
-      toast.success("Opening your email app…");
-    }, 500);
+    }
   };
 
   return (
-    <section id="contact" className="relative py-28">
-      <div className="pointer-events-none absolute inset-0 -z-10 overflow-hidden">
-        <div className="absolute left-1/2 top-1/2 h-[500px] w-[500px] -translate-x-1/2 -translate-y-1/2 rounded-full bg-primary/5 blur-[140px]" />
-      </div>
-      <div className="mx-auto max-w-7xl px-4 sm:px-6">
+    <section id="contact" ref={sectionRef} className="relative py-16 sm:py-24 lg:py-28">
+      <div
+        className="pointer-events-none absolute inset-0 -z-10 bg-[radial-gradient(ellipse_55%_50%_at_50%_100%,color-mix(in_oklab,var(--primary)_6%,transparent),transparent_65%)]"
+        aria-hidden
+      />
+
+      <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeader
           eyebrow="Get in touch"
           title="Let's build something great."
-          subtitle="I'm currently open for freelance projects and collaborations."
+          subtitle="Open for freelance projects, collaborations, and product builds."
         />
 
-        <div className="grid gap-8 lg:grid-cols-[0.9fr_1.1fr]">
-          <div className="space-y-4">
-            {infos.map((info, i) => {
-              const Inner = (
-                <motion.div
-                  initial={{ opacity: 0, x: -20 }}
-                  whileInView={{ opacity: 1, x: 0 }}
-                  viewport={{ once: true }}
-                  transition={{ delay: i * 0.07 }}
-                  className="glass group flex items-center gap-4 rounded-2xl p-5 transition hover:border-primary/30 hover:shadow-[var(--shadow-elegant)]"
-                >
-                  <div className="grid h-12 w-12 shrink-0 place-items-center rounded-xl bg-primary text-primary-foreground shadow-[var(--shadow-elegant)]">
-                    <info.icon size={18} />
-                  </div>
-                  <div className="min-w-0">
-                    <div className="text-xs uppercase tracking-wider text-muted-foreground">
-                      {info.label}
-                    </div>
-                    <div className="truncate font-medium text-foreground">{info.value}</div>
-                  </div>
-                </motion.div>
-              );
-              return info.href ? (
-                <a key={info.label} href={info.href} target="_blank" rel="noreferrer" className="block">
-                  {Inner}
-                </a>
-              ) : (
-                <div key={info.label}>{Inner}</div>
-              );
-            })}
+        <div ref={panelRef} className="grid gap-6 lg:grid-cols-12 lg:gap-8">
+          <aside className="contact-panel premium-frame flex flex-col rounded-2xl bg-card/35 p-6 backdrop-blur-sm sm:p-7 lg:col-span-5">
+            <div className="border-b border-border/60 pb-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-primary">
+                Available for work
+              </p>
+              <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
+                Reach out directly or send a message — I usually reply within 24 hours.
+              </p>
+            </div>
 
-            <div className="glass rounded-2xl p-5">
-              <div className="mb-3 text-xs uppercase tracking-wider text-muted-foreground">
-                Find me online
-              </div>
-              <div className="flex flex-wrap gap-2">
-                {socials.map((s) => (
+            <div className="mt-5 space-y-3">
+              {infos.map((info) => {
+                const content = (
+                  <div className="group/contact flex items-center gap-4 rounded-xl border border-transparent px-3 py-3 transition-colors hover:border-border/60 hover:bg-background/40">
+                    <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border/60 bg-background/60 text-primary">
+                      <info.icon size={16} aria-hidden />
+                    </div>
+                    <div className="min-w-0 flex-1">
+                      <p className="font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground">
+                        {info.label}
+                      </p>
+                      <p className="mt-1 break-all text-sm font-medium text-foreground/90 sm:break-normal sm:truncate">
+                        {info.value}
+                      </p>
+                    </div>
+                    {info.href ? (
+                      <ArrowUpRight
+                        size={14}
+                        className="shrink-0 text-muted-foreground/50 transition-all group-hover/contact:translate-x-0.5 group-hover/contact:-translate-y-0.5 group-hover/contact:text-primary"
+                        aria-hidden
+                      />
+                    ) : null}
+                  </div>
+                );
+
+                if (info.href) {
+                  return (
+                    <a
+                      key={info.label}
+                      href={info.href}
+                      target="_blank"
+                      rel="noreferrer"
+                      className="block rounded-xl transition-colors hover:bg-background/20"
+                    >
+                      {content}
+                    </a>
+                  );
+                }
+
+                return (
+                  <div key={info.label} className="rounded-xl">
+                    {content}
+                  </div>
+                );
+              })}
+            </div>
+
+            <div className="mt-6 border-t border-border/60 pt-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.22em] text-muted-foreground">
+                Social
+              </p>
+              <div className="mt-4 flex flex-wrap gap-2">
+                {socials.map((social) => (
                   <a
-                    key={s.label}
-                    href={s.href}
+                    key={social.label}
+                    href={social.href}
                     target="_blank"
                     rel="noreferrer"
-                    aria-label={s.label}
-                    className="grid h-11 w-11 place-items-center rounded-xl border border-border/60 bg-background/50 text-foreground/80 transition hover:border-primary/30 hover:text-foreground"
+                    aria-label={social.label}
+                    className="grid h-10 w-10 place-items-center rounded-lg border border-border/60 bg-background/50 text-foreground/75 transition-colors hover:border-primary/25 hover:bg-primary/5 hover:text-foreground"
                   >
-                    <s.icon size={16} />
+                    <social.icon size={15} />
                   </a>
                 ))}
               </div>
             </div>
-          </div>
+          </aside>
 
-          <motion.form
+          <form
             onSubmit={onSubmit}
-            initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
-            viewport={{ once: true }}
-            className="glass-strong space-y-5 rounded-3xl p-7 shadow-[var(--shadow-card)] sm:p-9"
+            className="contact-panel premium-frame rounded-2xl bg-card/35 p-6 backdrop-blur-sm sm:p-8 lg:col-span-7"
           >
-            <div className="grid gap-5 sm:grid-cols-2">
-              <Field label="Name" name="name" placeholder="Your name" />
-              <Field label="Email" name="email" type="email" placeholder="you@example.com" />
+            <div className="border-b border-border/60 pb-5">
+              <p className="font-mono text-[10px] uppercase tracking-[0.28em] text-primary">
+                Project inquiry
+              </p>
+              <p className="mt-3 font-display text-xl font-medium tracking-[-0.01em] sm:text-[1.35rem]">
+                Tell me what you&apos;re building.
+              </p>
             </div>
-            <Field label="Subject" name="subject" placeholder="Project inquiry" />
-            <div>
-              <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
-                Message
-              </label>
-              <textarea
+
+            <div className="mt-6 space-y-5">
+              <div className="grid gap-5 sm:grid-cols-2">
+                <Field label="Name" name="name" placeholder="Your name" />
+                <Field label="Email" name="email" type="email" placeholder="you@example.com" />
+              </div>
+              <Field label="Subject" name="subject" placeholder="Website, app, landing page…" />
+              <Field
+                label="Message"
                 name="message"
-                rows={6}
-                placeholder="Tell me about the project…"
-                className="w-full resize-none rounded-xl border border-border/60 bg-background/50 px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20"
+                placeholder="Scope, timeline, budget range — whatever helps."
+                multiline
               />
+
+              <button
+                type="submit"
+                disabled={sending}
+                className="hero-cta-primary group inline-flex w-full items-center justify-center gap-2 rounded-lg px-6 py-3.5 text-[11px] font-medium uppercase tracking-[0.14em] text-white transition-transform hover:scale-[1.01] disabled:opacity-70 sm:w-auto"
+              >
+                {sending ? "Sending…" : "Send message"}
+                <Send
+                  size={14}
+                  className="transition-transform group-hover:translate-x-0.5"
+                  aria-hidden
+                />
+              </button>
             </div>
-            <button
-              type="submit"
-              disabled={sending}
-              className="group relative inline-flex w-full items-center justify-center gap-2 border border-primary bg-primary px-7 py-4 text-[12px] font-medium uppercase tracking-[0.12em] text-primary-foreground transition hover:bg-primary/90 disabled:opacity-70 sm:w-auto"
-            >
-              <span className="absolute inset-0 -translate-x-full bg-white/20 transition-transform duration-500 group-hover:translate-x-0" />
-              <span className="relative">{sending ? "Sending…" : "Send Message"}</span>
-              <Send size={16} className="relative transition-transform group-hover:translate-x-0.5" />
-            </button>
-          </motion.form>
+          </form>
         </div>
       </div>
     </section>
@@ -174,23 +276,42 @@ function Field({
   name,
   type = "text",
   placeholder,
+  multiline = false,
 }: {
   label: string;
   name: string;
   type?: string;
   placeholder?: string;
+  multiline?: boolean;
 }) {
+  const fieldClassName =
+    "w-full rounded-lg border border-border/70 bg-background/50 px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/55 focus:border-primary/40 focus:bg-background/70 focus:ring-1 focus:ring-primary/15";
+
   return (
     <div>
-      <label className="mb-2 block text-xs font-medium uppercase tracking-wider text-muted-foreground">
+      <label
+        htmlFor={name}
+        className="mb-2 block font-mono text-[10px] uppercase tracking-[0.2em] text-muted-foreground"
+      >
         {label}
       </label>
-      <input
-        name={name}
-        type={type}
-        placeholder={placeholder}
-        className="w-full rounded-xl border border-border/60 bg-background/50 px-4 py-3 text-sm text-foreground outline-none transition placeholder:text-muted-foreground/60 focus:border-primary/50 focus:ring-1 focus:ring-primary/20"
-      />
+      {multiline ? (
+        <textarea
+          id={name}
+          name={name}
+          rows={6}
+          placeholder={placeholder}
+          className={`${fieldClassName} resize-none`}
+        />
+      ) : (
+        <input
+          id={name}
+          name={name}
+          type={type}
+          placeholder={placeholder}
+          className={fieldClassName}
+        />
+      )}
     </div>
   );
 }

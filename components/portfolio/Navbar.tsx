@@ -1,25 +1,28 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 import { Moon, Sun, Menu, X } from "lucide-react";
 import { useTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#about", label: "About" },
-  { href: "#skills", label: "Skills" },
-  { href: "#services", label: "Services" },
-  { href: "#projects", label: "Projects" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#about", label: "About" },
+  { href: "/#skills", label: "Skills" },
+  { href: "/#services", label: "Services" },
+  { href: "/#projects", label: "Projects" },
+  { href: "/#testimonials", label: "Testimonials" },
+  { href: "/#journey", label: "Journey" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export function Navbar() {
+  const pathname = usePathname();
   const { theme, toggle } = useTheme();
   const [scrolled, setScrolled] = useState(false);
   const [progress, setProgress] = useState(0);
   const [open, setOpen] = useState(false);
-  const [activeHash, setActiveHash] = useState("#home");
+  const [activeHash, setActiveHash] = useState("");
 
   useEffect(() => {
     const onScroll = () => {
@@ -33,13 +36,22 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
-    const syncHash = () => setActiveHash(window.location.hash || "#home");
+    const syncHash = () => setActiveHash(window.location.hash);
     syncHash();
     window.addEventListener("hashchange", syncHash);
     return () => window.removeEventListener("hashchange", syncHash);
   }, []);
 
-  const onHero = !scrolled;
+  useEffect(() => {
+    if (!open) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = "hidden";
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [open]);
+
+  const onHero = pathname === "/" && !scrolled;
 
   return (
     <>
@@ -50,8 +62,8 @@ export function Navbar() {
       />
       <header
         className={cn(
-          "fixed inset-x-0 top-0 z-50 transition-[padding,background-color] duration-300",
-          scrolled ? "py-2" : "py-4",
+          "fixed inset-x-0 top-0 z-50 pt-[env(safe-area-inset-top,0px)] transition-[padding,background-color] duration-300",
+          scrolled ? "py-2" : "py-3 sm:py-4",
         )}
       >
         <div className="mx-auto max-w-7xl px-4 sm:px-6">
@@ -61,7 +73,7 @@ export function Navbar() {
               scrolled && "border-b border-border bg-background/95",
             )}
           >
-            <a href="#home" className="flex items-center gap-3 justify-self-start">
+            <a href="/" className="flex items-center gap-3 justify-self-start">
               <span
                 className={cn(
                   "font-display text-2xl font-light italic leading-none",
@@ -82,9 +94,9 @@ export function Navbar() {
               </span>
             </a>
 
-            <nav className="hidden items-center gap-6 md:flex" aria-label="Main">
+            <nav className="hidden items-center gap-5 lg:flex xl:gap-6" aria-label="Main">
               {links.map((l) => {
-                const isActive = activeHash === l.href || (activeHash === "" && l.href === "#home");
+                const isActive = Boolean(activeHash) && l.href.endsWith(activeHash);
                 return (
                   <a
                     key={l.href}
@@ -125,7 +137,7 @@ export function Navbar() {
                 aria-label={open ? "Close menu" : "Open menu"}
                 onClick={() => setOpen((v) => !v)}
                 className={cn(
-                  "grid h-9 w-9 place-items-center rounded-lg border md:hidden",
+                  "grid h-9 w-9 place-items-center rounded-lg border md:hidden lg:hidden",
                   onHero
                     ? "border-foreground/15 bg-white/35 text-foreground/80 backdrop-blur-sm dark:border-white/15 dark:bg-black/20 dark:text-white/80"
                     : "border-border text-foreground",
@@ -138,18 +150,35 @@ export function Navbar() {
         </div>
 
         {open && (
-          <div className="mx-4 mt-2 border border-border bg-card p-2 md:hidden">
-            {links.map((l) => (
-              <a
-                key={l.href}
-                href={l.href}
-                onClick={() => setOpen(false)}
-                className="block px-4 py-3 text-sm text-foreground/80 transition-colors hover:bg-accent hover:text-foreground"
-              >
-                {l.label}
-              </a>
-            ))}
-          </div>
+          <>
+            <button
+              type="button"
+              aria-label="Close menu"
+              className="fixed inset-0 z-40 bg-background/70 backdrop-blur-[2px] lg:hidden"
+              onClick={() => setOpen(false)}
+            />
+            <div className="absolute inset-x-3 top-full z-50 mt-2 max-h-[min(72dvh,calc(100dvh-5.5rem))] overflow-y-auto overscroll-contain rounded-xl border border-border bg-card/98 p-2 shadow-[var(--shadow-elegant)] backdrop-blur-md sm:inset-x-4 lg:hidden">
+              {links.map((l) => {
+                const isActive = Boolean(activeHash) && l.href.endsWith(activeHash);
+
+                return (
+                  <a
+                    key={l.href}
+                    href={l.href}
+                    onClick={() => setOpen(false)}
+                    className={cn(
+                      "block rounded-lg px-4 py-3.5 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
+                      isActive
+                        ? "bg-accent text-foreground"
+                        : "text-foreground/75 hover:bg-accent/70 hover:text-foreground",
+                    )}
+                  >
+                    {l.label}
+                  </a>
+                );
+              })}
+            </div>
+          </>
         )}
       </header>
     </>

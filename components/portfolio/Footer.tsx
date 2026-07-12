@@ -16,8 +16,8 @@ const socials = [
 
 export function Footer() {
   return (
-    <footer className="relative border-t border-border py-12">
-      <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 sm:flex-row sm:justify-between sm:px-6">
+    <footer className="relative border-t border-border py-10 pb-[calc(2.5rem+env(safe-area-inset-bottom,0px))] sm:py-12">
+      <div className="mx-auto flex max-w-7xl flex-col items-center gap-8 px-4 text-center sm:flex-row sm:justify-between sm:px-6 sm:text-left">
         <div>
           <p className="font-display text-2xl font-light italic text-primary">Siam Kabir</p>
           <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
