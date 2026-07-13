@@ -152,9 +152,9 @@ export function Hero() {
         </video>
       </div>
 
-      <div className="absolute inset-0 bg-white/55 dark:bg-black/55" aria-hidden />
+      <div className="absolute inset-0 bg-white/65 dark:bg-black/55" aria-hidden />
       <div
-        className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_45%,rgba(255,255,255,0.35)_0%,rgba(255,255,255,0.72)_100%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_45%,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.75)_100%)]"
+        className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_45%,rgba(255,255,255,0.45)_0%,rgba(244,244,246,0.88)_100%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_45%,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.75)_100%)]"
         aria-hidden
       />
 
@@ -166,7 +166,7 @@ export function Hero() {
       <div className="relative z-10 flex min-h-0 flex-1 flex-col pt-[calc(4.75rem+env(safe-area-inset-top,0px))]">
         <div className="flex flex-1 items-center justify-center px-4 pb-4 sm:px-6 sm:pb-0">
           <div className="w-full max-w-3xl text-center">
-            <p className="animate-fade-up font-mono text-[11px] uppercase tracking-[0.35em] text-foreground/70 dark:text-white/80">
+            <p className="animate-fade-up font-mono text-[11px] uppercase tracking-[0.35em] text-foreground/80 dark:text-white/80">
               Available for freelance
             </p>
 
@@ -175,12 +175,12 @@ export function Hero() {
               <span className="not-italic">Kabir</span>
             </h1>
 
-            <p className="animate-fade-up delay-1 mt-3 font-display text-lg italic text-foreground/65 dark:text-white/70 sm:text-xl">
+            <p className="animate-fade-up delay-1 mt-3 font-display text-lg italic text-foreground/80 dark:text-white/70 sm:text-xl">
               Crafting deliberate, high-quality web products.
             </p>
 
-            <p className="animate-fade-up delay-2 mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-foreground/70 dark:text-white/75 sm:mt-5 sm:text-lg sm:leading-relaxed">
-              <span className="font-semibold text-foreground/90 dark:text-white/95">
+            <p className="animate-fade-up delay-2 mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-foreground/80 dark:text-white/75 sm:mt-5 sm:text-lg sm:leading-relaxed">
+              <span className="font-semibold text-foreground dark:text-white/95">
                 Full-stack developer
               </span>{" "}
               building responsive platforms with Next.js, Laravel, and Supabase — thoughtful UX,
@@ -207,7 +207,7 @@ export function Hero() {
                   window.history.pushState(null, "", "#projects");
                   scrollToSectionId("projects");
                 }}
-                className="inline-flex items-center gap-2 rounded-lg border border-foreground/20 bg-white/20 px-6 py-3 text-xs font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground/35 hover:bg-white/35 dark:border-white/25 dark:bg-transparent dark:text-white dark:hover:border-white/45 dark:hover:bg-white/[0.04]"
+                className="inline-flex items-center gap-2 rounded-lg border border-foreground/30 bg-white/55 px-6 py-3 text-xs font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground/45 hover:bg-white/75 dark:border-white/25 dark:bg-transparent dark:text-white dark:hover:border-white/45 dark:hover:bg-white/[0.04]"
               >
                 View work
               </a>
@@ -224,7 +224,7 @@ export function Hero() {
                 target="_blank"
                 rel="noreferrer"
                 aria-label={s.label}
-                className="grid h-9 w-9 place-items-center rounded-md border border-foreground/15 bg-white/35 text-foreground/55 backdrop-blur-sm transition-colors hover:border-foreground/30 hover:text-foreground dark:border-white/15 dark:bg-black/20 dark:text-white/55 dark:hover:border-white/30 dark:hover:text-white"
+                className="grid h-9 w-9 place-items-center rounded-md border border-foreground/20 bg-white/60 text-foreground/75 backdrop-blur-sm transition-colors hover:border-foreground/35 hover:text-foreground dark:border-white/15 dark:bg-black/20 dark:text-white/55 dark:hover:border-white/30 dark:hover:text-white"
               >
                 <s.icon size={15} />
               </a>

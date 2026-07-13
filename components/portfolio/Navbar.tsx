@@ -129,7 +129,7 @@ export function Navbar() {
                 className={cn(
                   "hidden border-l pl-3 font-mono text-[10px] uppercase tracking-[0.25em] sm:block",
                   onHero
-                    ? "border-foreground/20 text-foreground/60 dark:border-white/20 dark:text-white/60"
+                    ? "border-foreground/25 text-foreground/75 dark:border-white/20 dark:text-white/60"
                     : "border-border text-muted-foreground",
                 )}
               >
@@ -154,8 +154,8 @@ export function Navbar() {
                       "group relative inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 font-mono text-[10px] uppercase leading-none tracking-[0.08em] transition-all duration-300 xl:gap-2 xl:px-3",
                       onHero
                         ? isActive
-                          ? "bg-white/12 text-foreground dark:bg-white/[0.08] dark:text-white"
-                          : "text-foreground/55 hover:bg-white/[0.06] hover:text-foreground/90 dark:text-white/55 dark:hover:bg-white/[0.05] dark:hover:text-white/90"
+                          ? "bg-black/[0.06] text-foreground dark:bg-white/[0.08] dark:text-white"
+                          : "text-foreground/70 hover:bg-black/[0.04] hover:text-foreground dark:text-white/55 dark:hover:bg-white/[0.05] dark:hover:text-white/90"
                         : isActive
                           ? "bg-primary/10 text-foreground"
                           : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
