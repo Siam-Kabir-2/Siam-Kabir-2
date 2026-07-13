@@ -2,6 +2,7 @@
 
 import { useEffect, useRef } from "react";
 import { ArrowRight, Github, Linkedin, Instagram, Send } from "lucide-react";
+import { scrollToSectionId } from "@/lib/scroll-to-section";
 
 const XIcon = (props: { size?: number }) => (
   <svg width={props.size ?? 16} height={props.size ?? 16} viewBox="0 0 24 24" fill="currentColor">
@@ -189,6 +190,11 @@ export function Hero() {
             <div className="animate-fade-up delay-3 mt-6 flex flex-wrap items-center justify-center gap-3 sm:mt-7">
               <a
                 href="#contact"
+                onClick={(event) => {
+                  event.preventDefault();
+                  window.history.pushState(null, "", "#contact");
+                  scrollToSectionId("contact");
+                }}
                 className="hero-cta-primary inline-flex items-center gap-2 rounded-lg px-6 py-3 text-xs font-medium uppercase tracking-[0.14em] text-white transition-transform hover:scale-[1.02]"
               >
                 Get in touch
@@ -196,6 +202,11 @@ export function Hero() {
               </a>
               <a
                 href="#projects"
+                onClick={(event) => {
+                  event.preventDefault();
+                  window.history.pushState(null, "", "#projects");
+                  scrollToSectionId("projects");
+                }}
                 className="inline-flex items-center gap-2 rounded-lg border border-foreground/20 bg-white/20 px-6 py-3 text-xs font-medium uppercase tracking-[0.14em] text-foreground transition-colors hover:border-foreground/35 hover:bg-white/35 dark:border-white/25 dark:bg-transparent dark:text-white dark:hover:border-white/45 dark:hover:bg-white/[0.04]"
               >
                 View work

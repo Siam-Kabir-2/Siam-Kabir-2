@@ -1,4 +1,4 @@
-import { ExternalLink } from "lucide-react";
+import { ExternalLink, Github } from "lucide-react";
 import type { Project } from "./projects-data";
 import { getProjectDomain } from "./projects-data";
 
@@ -103,6 +103,11 @@ export function ProjectGridCard({ project }: ProjectCardProps) {
               Mobile-first
             </span>
           ) : null}
+          {project.repo ? (
+            <span className="rounded-full border border-border/60 px-2.5 py-0.5 font-mono text-[9px] uppercase tracking-[0.12em] text-muted-foreground">
+              Public repo
+            </span>
+          ) : null}
         </div>
 
         <h3 className="mt-4 font-display text-[1.45rem] font-medium leading-tight tracking-[-0.02em]">
@@ -113,15 +118,28 @@ export function ProjectGridCard({ project }: ProjectCardProps) {
           {project.description}
         </p>
 
-        <a
-          href={project.live}
-          target="_blank"
-          rel="noreferrer"
-          className="mt-6 inline-flex w-fit items-center gap-2 border-b border-foreground/20 pb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground transition-colors hover:border-primary/50 hover:text-primary"
-        >
-          View project
-          <ExternalLink size={13} aria-hidden />
-        </a>
+        <div className="mt-6 flex flex-wrap items-center gap-4">
+          <a
+            href={project.live}
+            target="_blank"
+            rel="noreferrer"
+            className="inline-flex w-fit items-center gap-2 border-b border-foreground/20 pb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-foreground transition-colors hover:border-primary/50 hover:text-primary"
+          >
+            View project
+            <ExternalLink size={13} aria-hidden />
+          </a>
+          {project.repo ? (
+            <a
+              href={project.repo}
+              target="_blank"
+              rel="noreferrer"
+              className="inline-flex w-fit items-center gap-2 border-b border-foreground/20 pb-1 font-mono text-[10px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:border-primary/50 hover:text-primary"
+            >
+              <Github size={13} aria-hidden />
+              GitHub
+            </a>
+          ) : null}
+        </div>
       </div>
     </article>
   );

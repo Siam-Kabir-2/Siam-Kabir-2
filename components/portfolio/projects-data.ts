@@ -21,6 +21,7 @@ export interface Project {
   mobilePreview?: boolean;
   stack?: string[];
   role?: string;
+  repo?: string;
 }
 
 export const projectFilters: { id: ProjectFilter; label: string }[] = [
@@ -220,8 +221,14 @@ export const allProjects: Project[] = [
     id: "flappy-bird",
     title: "Flappy Bird Clone",
     type: "2D Game",
-    description: "Browser-based flappy bird clone with responsive controls and lightweight gameplay.",
+    description:
+      "Browser-based flappy bird clone with responsive controls, clean pixel art presentation, and lightweight gameplay built for both desktop and mobile.",
     live: "https://flappy-bird106.netlify.app",
+    image: "/projects/flappyBirdClone.png",
+    featured: true,
+    stack: ["React", "TypeScript", "Vite", "Tailwind CSS"],
+    role: "Developer",
+    repo: "https://github.com/Siam-Kabir-2/Flappy-Bird",
   },
   {
     id: "sky-war",

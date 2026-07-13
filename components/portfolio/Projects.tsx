@@ -2,10 +2,10 @@
 
 import { useEffect, useRef } from "react";
 import Link from "next/link";
-import { ArrowUpRight, Lock } from "lucide-react";
+import { ArrowUpRight, Github, Lock } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { ProjectPreviewFrame } from "@/components/portfolio/ProjectCard";
-import { featuredProjects, getProjectDomain } from "@/components/portfolio/projects-data";
+import { featuredProjects } from "@/components/portfolio/projects-data";
 import { SectionHeader } from "./SectionHeader";
 
 export function Projects() {
@@ -127,7 +127,6 @@ export function Projects() {
 
         <div ref={stackRef} className="project-stack relative mt-2 md:mt-4">
           {featuredProjects.map((project, index) => {
-            const domain = getProjectDomain(project.live);
             const reversed = index % 2 === 1;
             const isLast = index === featuredProjects.length - 1;
 
@@ -157,36 +156,48 @@ export function Projects() {
                         <ProjectPreviewFrame project={project} />
                       </a>
 
-                      <div className="flex flex-col justify-between bg-card p-6 sm:p-8 lg:p-9">
-                        <div>
-                          <div className="flex flex-wrap items-center gap-2">
-                            <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
-                              {project.type}
-                            </span>
+                      <div className="flex flex-col bg-card p-6 sm:p-8 lg:min-h-full lg:p-9">
+                        <div className="flex flex-wrap items-center gap-2">
+                          <span className="rounded-full border border-primary/20 bg-primary/10 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.18em] text-primary">
+                            {project.type}
+                          </span>
+                          {project.repo ? (
+                            <a
+                              href={project.repo}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/50 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground transition-colors hover:border-primary/25 hover:text-primary"
+                            >
+                              <Github size={10} aria-hidden />
+                              Public repo
+                            </a>
+                          ) : (
                             <span className="inline-flex items-center gap-1 rounded-full border border-border/60 bg-background/50 px-3 py-1 font-mono text-[10px] uppercase tracking-[0.14em] text-muted-foreground">
                               <Lock size={10} aria-hidden />
                               Private repo
                             </span>
-                          </div>
+                          )}
+                        </div>
 
-                          <div className="mt-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
-                            <span className="text-primary">
-                              {String(index + 1).padStart(2, "0")}
-                            </span>
-                            <span className="h-px flex-1 bg-border" />
-                            <span>{project.role ?? "Developer"}</span>
-                          </div>
+                        <div className="mt-5 flex items-center gap-3 font-mono text-[11px] uppercase tracking-[0.2em] text-muted-foreground">
+                          <span className="text-primary">
+                            {String(index + 1).padStart(2, "0")}
+                          </span>
+                          <span className="h-px flex-1 bg-border" />
+                          <span>{project.role ?? "Developer"}</span>
+                        </div>
 
-                          <h3 className="mt-4 font-display text-[clamp(1.75rem,3vw,2.35rem)] font-medium leading-tight tracking-[-0.02em]">
+                        <div className="mt-6 flex flex-1 flex-col">
+                          <h3 className="font-display text-[clamp(1.85rem,3.2vw,2.5rem)] font-medium leading-[1.08] tracking-[-0.02em]">
                             {project.title}
                           </h3>
 
-                          <p className="mt-4 text-sm leading-relaxed text-muted-foreground sm:text-[15px] sm:leading-[1.75]">
+                          <p className="mt-4 max-w-md text-sm leading-relaxed text-muted-foreground sm:text-[15px] sm:leading-[1.8]">
                             {project.description}
                           </p>
 
                           {project.stack ? (
-                            <div className="mt-6 flex flex-wrap gap-2">
+                            <div className="mt-6 flex flex-wrap gap-2 lg:mt-auto lg:pt-8">
                               {project.stack.map((item) => (
                                 <span
                                   key={item}
@@ -196,10 +207,12 @@ export function Projects() {
                                 </span>
                               ))}
                             </div>
-                          ) : null}
+                          ) : (
+                            <div className="lg:mt-auto" />
+                          )}
                         </div>
 
-                        <div className="mt-8">
+                        <div className="mt-7 flex flex-wrap items-center gap-x-6 gap-y-3 border-t border-border/60 pt-6">
                           <a
                             href={project.live}
                             target="_blank"
@@ -213,9 +226,22 @@ export function Projects() {
                               aria-hidden
                             />
                           </a>
-                          <p className="mt-2 font-mono text-[10px] uppercase tracking-[0.12em] text-muted-foreground/70">
-                            {domain}
-                          </p>
+                          {project.repo ? (
+                            <a
+                              href={project.repo}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="group/repo inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-colors hover:text-primary"
+                            >
+                              <Github size={14} aria-hidden />
+                              View repo
+                              <ArrowUpRight
+                                size={14}
+                                className="transition-transform group-hover/repo:-translate-y-0.5 group-hover/repo:translate-x-0.5"
+                                aria-hidden
+                              />
+                            </a>
+                          ) : null}
                         </div>
                       </div>
                     </div>

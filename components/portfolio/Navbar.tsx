@@ -2,18 +2,32 @@
 
 import { useEffect, useState } from "react";
 import { usePathname } from "next/navigation";
-import { Moon, Sun, Menu, X } from "lucide-react";
+import {
+  Moon,
+  Sun,
+  Menu,
+  X,
+  User,
+  Layers,
+  Briefcase,
+  LayoutGrid,
+  MessageSquareQuote,
+  Route,
+  Mail,
+  type LucideIcon,
+} from "lucide-react";
 import { useTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
+import { getHashId, scrollToSectionId } from "@/lib/scroll-to-section";
 
-const links = [
-  { href: "/#about", label: "About" },
-  { href: "/#skills", label: "Skills" },
-  { href: "/#services", label: "Services" },
-  { href: "/#projects", label: "Projects" },
-  { href: "/#testimonials", label: "Testimonials" },
-  { href: "/#journey", label: "Journey" },
-  { href: "/#contact", label: "Contact" },
+const links: { href: string; label: string; icon: LucideIcon }[] = [
+  { href: "/#about", label: "About", icon: User },
+  { href: "/#skills", label: "Skills", icon: Layers },
+  { href: "/#services", label: "Services", icon: Briefcase },
+  { href: "/#projects", label: "Projects", icon: LayoutGrid },
+  { href: "/#testimonials", label: "Testimonials", icon: MessageSquareQuote },
+  { href: "/#journey", label: "Journey", icon: Route },
+  { href: "/#contact", label: "Contact", icon: Mail },
 ];
 
 export function Navbar() {
@@ -43,6 +57,18 @@ export function Navbar() {
   }, []);
 
   useEffect(() => {
+    if (pathname !== "/") return;
+
+    const hash = window.location.hash;
+    if (!hash) return;
+
+    const id = hash.slice(1);
+    // Wait a tick for sections to mount, then correct land position
+    const timer = window.setTimeout(() => scrollToSectionId(id, "auto"), 50);
+    return () => window.clearTimeout(timer);
+  }, [pathname]);
+
+  useEffect(() => {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
@@ -52,6 +78,23 @@ export function Navbar() {
   }, [open]);
 
   const onHero = pathname === "/" && !scrolled;
+
+  const handleSectionLink = (
+    event: React.MouseEvent<HTMLAnchorElement>,
+    href: string,
+  ) => {
+    const id = getHashId(href);
+    if (!id) return;
+
+    // Same-page: accurate scroll. Cross-page: let the browser navigate to /#id
+    if (pathname !== "/") return;
+
+    event.preventDefault();
+    setOpen(false);
+    setActiveHash(`#${id}`);
+    window.history.pushState(null, "", `/#${id}`);
+    scrollToSectionId(id);
+  };
 
   return (
     <>
@@ -66,14 +109,14 @@ export function Navbar() {
           scrolled ? "py-2" : "py-3 sm:py-4",
         )}
       >
-        <div className="mx-auto max-w-7xl px-4 sm:px-6">
+        <div className="mx-auto max-w-[92rem] px-4 sm:px-6 xl:px-8">
           <div
             className={cn(
-              "grid grid-cols-[1fr_auto_1fr] items-center px-1 py-3 transition-colors duration-300 sm:px-2",
+              "relative flex items-center justify-between gap-4 px-1 py-3 transition-colors duration-300 sm:px-2",
               scrolled && "border-b border-border bg-background/95",
             )}
           >
-            <a href="/" className="flex items-center gap-3 justify-self-start">
+            <a href="/" className="relative z-10 flex shrink-0 items-center gap-3">
               <span
                 className={cn(
                   "font-display text-2xl font-light italic leading-none",
@@ -94,31 +137,50 @@ export function Navbar() {
               </span>
             </a>
 
-            <nav className="hidden items-center gap-5 lg:flex xl:gap-6" aria-label="Main">
+            <nav
+              className="absolute left-1/2 top-1/2 hidden -translate-x-1/2 -translate-y-1/2 items-center justify-center gap-1 xl:gap-1.5 lg:flex"
+              aria-label="Main"
+            >
               {links.map((l) => {
                 const isActive = Boolean(activeHash) && l.href.endsWith(activeHash);
+                const Icon = l.icon;
+
                 return (
                   <a
                     key={l.href}
                     href={l.href}
+                    onClick={(event) => handleSectionLink(event, l.href)}
                     className={cn(
-                      "font-mono text-[11px] uppercase tracking-[0.15em] transition-colors",
+                      "group relative inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 font-mono text-[10px] uppercase leading-none tracking-[0.08em] transition-all duration-300 xl:gap-2 xl:px-3",
                       onHero
                         ? isActive
-                          ? "text-foreground underline decoration-foreground underline-offset-[6px] dark:text-white dark:decoration-white"
-                          : "text-foreground/55 hover:text-foreground/85 dark:text-white/55 dark:hover:text-white/85"
+                          ? "bg-white/12 text-foreground dark:bg-white/[0.08] dark:text-white"
+                          : "text-foreground/55 hover:bg-white/[0.06] hover:text-foreground/90 dark:text-white/55 dark:hover:bg-white/[0.05] dark:hover:text-white/90"
                         : isActive
-                          ? "text-foreground underline decoration-foreground underline-offset-[6px]"
-                          : "text-muted-foreground hover:text-foreground",
+                          ? "bg-primary/10 text-foreground"
+                          : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
                     )}
                   >
-                    {l.label}
+                    <span className="grid h-3.5 w-3.5 shrink-0 place-items-center">
+                      <Icon
+                        size={13}
+                        strokeWidth={1.75}
+                        className={cn(
+                          "block transition-colors duration-300",
+                          isActive
+                            ? "text-primary"
+                            : "text-current opacity-55 group-hover:opacity-90",
+                        )}
+                        aria-hidden
+                      />
+                    </span>
+                    <span className="translate-y-[0.5px] leading-none">{l.label}</span>
                   </a>
                 );
               })}
             </nav>
 
-            <div className="flex items-center gap-2 justify-self-end">
+            <div className="relative z-10 ml-auto flex shrink-0 items-center gap-2">
               <button
                 type="button"
                 aria-label="Toggle theme"
@@ -137,7 +199,7 @@ export function Navbar() {
                 aria-label={open ? "Close menu" : "Open menu"}
                 onClick={() => setOpen((v) => !v)}
                 className={cn(
-                  "grid h-9 w-9 place-items-center rounded-lg border md:hidden lg:hidden",
+                  "grid h-9 w-9 place-items-center rounded-lg border lg:hidden",
                   onHero
                     ? "border-foreground/15 bg-white/35 text-foreground/80 backdrop-blur-sm dark:border-white/15 dark:bg-black/20 dark:text-white/80"
                     : "border-border text-foreground",
@@ -160,20 +222,32 @@ export function Navbar() {
             <div className="absolute inset-x-3 top-full z-50 mt-2 max-h-[min(72dvh,calc(100dvh-5.5rem))] overflow-y-auto overscroll-contain rounded-xl border border-border bg-card/98 p-2 shadow-[var(--shadow-elegant)] backdrop-blur-md sm:inset-x-4 lg:hidden">
               {links.map((l) => {
                 const isActive = Boolean(activeHash) && l.href.endsWith(activeHash);
+                const Icon = l.icon;
 
                 return (
                   <a
                     key={l.href}
                     href={l.href}
-                    onClick={() => setOpen(false)}
+                    onClick={(event) => handleSectionLink(event, l.href)}
                     className={cn(
-                      "block rounded-lg px-4 py-3.5 font-mono text-[11px] uppercase tracking-[0.14em] transition-colors",
+                      "flex items-center gap-3 rounded-lg px-4 py-3.5 font-mono text-[11px] uppercase leading-none tracking-[0.08em] transition-colors",
                       isActive
                         ? "bg-accent text-foreground"
                         : "text-foreground/75 hover:bg-accent/70 hover:text-foreground",
                     )}
                   >
-                    {l.label}
+                    <span className="grid h-4 w-4 shrink-0 place-items-center">
+                      <Icon
+                        size={15}
+                        strokeWidth={1.75}
+                        className={cn(
+                          "block",
+                          isActive ? "text-primary" : "text-muted-foreground",
+                        )}
+                        aria-hidden
+                      />
+                    </span>
+                    <span className="translate-y-[0.5px] leading-none">{l.label}</span>
                   </a>
                 );
               })}

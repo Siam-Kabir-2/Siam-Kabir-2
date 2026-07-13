@@ -38,25 +38,13 @@ export function PortfolioHome() {
       <Navbar />
       <main>
         <Hero />
-        <div className="section-lazy">
-          <About />
-        </div>
-        <div className="section-lazy">
-          <Skills />
-        </div>
-        <div className="section-lazy">
-          <Services />
-        </div>
+        <About />
+        <Skills />
+        <Services />
         <Projects />
-        <div className="section-lazy">
-          <Testimonials />
-        </div>
-        <div className="section-lazy">
-          <Timeline />
-        </div>
-        <div className="section-lazy">
-          <Contact />
-        </div>
+        <Testimonials />
+        <Timeline />
+        <Contact />
       </main>
       <Footer />
     </div>

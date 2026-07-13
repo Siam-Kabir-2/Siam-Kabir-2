@@ -116,6 +116,9 @@
   html {
     scroll-behavior: smooth;
   }
+  section[id] {
+    scroll-margin-top: 5.5rem;
+  }
   @media (prefers-reduced-motion: reduce) {
     html {
       scroll-behavior: auto;
@@ -178,17 +181,6 @@
 @utility premium-frame {
   border: 1px solid var(--border);
   box-shadow: var(--shadow-card);
-}
-
-@utility section-lazy {
-  content-visibility: auto;
-  contain-intrinsic-size: auto 640px;
-}
-
-@media (min-width: 768px) {
-  .section-lazy {
-    contain-intrinsic-size: auto 900px;
-  }
 }
 
 @utility about-portrait-fade {
