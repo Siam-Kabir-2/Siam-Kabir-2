@@ -129,8 +129,8 @@ export function Navbar() {
                 className={cn(
                   "hidden border-l pl-3 font-mono text-[10px] uppercase tracking-[0.25em] sm:block",
                   onHero
-                    ? "border-foreground/25 text-foreground/75 dark:border-white/20 dark:text-white/60"
-                    : "border-border text-muted-foreground",
+                    ? "border-foreground/30 text-foreground/85 dark:border-white/20 dark:text-white/60"
+                    : "border-border text-foreground/75",
                 )}
               >
                 Siam Kabir
@@ -154,11 +154,11 @@ export function Navbar() {
                       "group relative inline-flex h-7 items-center gap-1.5 rounded-md px-2.5 font-mono text-[10px] uppercase leading-none tracking-[0.08em] transition-all duration-300 xl:gap-2 xl:px-3",
                       onHero
                         ? isActive
-                          ? "bg-black/[0.06] text-foreground dark:bg-white/[0.08] dark:text-white"
-                          : "text-foreground/70 hover:bg-black/[0.04] hover:text-foreground dark:text-white/55 dark:hover:bg-white/[0.05] dark:hover:text-white/90"
+                          ? "bg-black/[0.07] text-foreground dark:bg-white/[0.08] dark:text-white"
+                          : "text-foreground/85 hover:bg-black/[0.05] hover:text-foreground dark:text-white/55 dark:hover:bg-white/[0.05] dark:hover:text-white/90"
                         : isActive
                           ? "bg-primary/10 text-foreground"
-                          : "text-muted-foreground hover:bg-accent/60 hover:text-foreground",
+                          : "text-foreground/75 hover:bg-accent/60 hover:text-foreground",
                     )}
                   >
                     <span className="grid h-3.5 w-3.5 shrink-0 place-items-center">
@@ -169,7 +169,7 @@ export function Navbar() {
                           "block transition-colors duration-300",
                           isActive
                             ? "text-primary"
-                            : "text-current opacity-55 group-hover:opacity-90",
+                            : "text-current opacity-80 group-hover:opacity-100 dark:opacity-55 dark:group-hover:opacity-90",
                         )}
                         aria-hidden
                       />
@@ -188,8 +188,8 @@ export function Navbar() {
                 className={cn(
                   "grid h-9 w-9 place-items-center rounded-lg border transition-colors",
                   onHero
-                    ? "border-foreground/15 bg-white/35 text-foreground/80 shadow-[0_0_24px_rgba(251,191,36,0.18)] backdrop-blur-sm hover:border-foreground/30 hover:text-foreground dark:border-white/15 dark:bg-black/20 dark:text-white/80 dark:shadow-[0_0_24px_rgba(251,191,36,0.22)] dark:hover:border-white/30 dark:hover:text-white"
-                    : "border-border text-foreground/70 hover:border-primary/50 hover:text-primary",
+                    ? "border-foreground/25 bg-white/70 text-foreground shadow-[0_0_24px_rgba(251,191,36,0.18)] backdrop-blur-sm hover:border-foreground/40 hover:text-foreground dark:border-white/15 dark:bg-black/20 dark:text-white/80 dark:shadow-[0_0_24px_rgba(251,191,36,0.22)] dark:hover:border-white/30 dark:hover:text-white"
+                    : "border-border text-foreground/80 hover:border-primary/50 hover:text-primary",
                 )}
               >
                 {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
@@ -201,7 +201,7 @@ export function Navbar() {
                 className={cn(
                   "grid h-9 w-9 place-items-center rounded-lg border lg:hidden",
                   onHero
-                    ? "border-foreground/15 bg-white/35 text-foreground/80 backdrop-blur-sm dark:border-white/15 dark:bg-black/20 dark:text-white/80"
+                    ? "border-foreground/25 bg-white/70 text-foreground backdrop-blur-sm dark:border-white/15 dark:bg-black/20 dark:text-white/80"
                     : "border-border text-foreground",
                 )}
               >

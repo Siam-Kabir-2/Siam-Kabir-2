@@ -166,7 +166,7 @@ export function Hero() {
       <div className="relative z-10 flex min-h-0 flex-1 flex-col pt-[calc(4.75rem+env(safe-area-inset-top,0px))]">
         <div className="flex flex-1 items-center justify-center px-4 pb-4 sm:px-6 sm:pb-0">
           <div className="w-full max-w-3xl text-center">
-            <p className="animate-fade-up font-mono text-[11px] uppercase tracking-[0.35em] text-foreground/80 dark:text-white/80">
+            <p className="animate-fade-up font-mono text-[11px] uppercase tracking-[0.35em] text-foreground/85 dark:text-white/80">
               Available for freelance
             </p>
 
@@ -175,11 +175,11 @@ export function Hero() {
               <span className="not-italic">Kabir</span>
             </h1>
 
-            <p className="animate-fade-up delay-1 mt-3 font-display text-lg italic text-foreground/80 dark:text-white/70 sm:text-xl">
+            <p className="animate-fade-up delay-1 mt-3 font-display text-lg italic text-foreground/85 dark:text-white/70 sm:text-xl">
               Crafting deliberate, high-quality web products.
             </p>
 
-            <p className="animate-fade-up delay-2 mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-foreground/80 dark:text-white/75 sm:mt-5 sm:text-lg sm:leading-relaxed">
+            <p className="animate-fade-up delay-2 mx-auto mt-4 max-w-2xl text-[15px] leading-relaxed text-foreground/85 dark:text-white/75 sm:mt-5 sm:text-lg sm:leading-relaxed">
               <span className="font-semibold text-foreground dark:text-white/95">
                 Full-stack developer
               </span>{" "}
