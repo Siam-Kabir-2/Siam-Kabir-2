@@ -167,6 +167,11 @@ export function Hero() {
         className="absolute inset-0 bg-[radial-gradient(ellipse_80%_60%_at_50%_45%,rgba(255,255,255,0.45)_0%,rgba(244,244,246,0.88)_100%)] dark:bg-[radial-gradient(ellipse_80%_60%_at_50%_45%,rgba(0,0,0,0.45)_0%,rgba(0,0,0,0.75)_100%)]"
         aria-hidden
       />
+      {/* Soften baked-in Veo watermark (bottom-right of bg video) */}
+      <div
+        className="pointer-events-none absolute bottom-0 right-0 h-40 w-52 bg-[radial-gradient(ellipse_100%_100%_at_100%_100%,rgba(0,0,0,0.92)_0%,rgba(0,0,0,0.62)_40%,rgba(0,0,0,0.28)_65%,transparent_82%)] dark:h-44 dark:w-56 dark:bg-[radial-gradient(ellipse_100%_100%_at_100%_100%,rgba(0,0,0,0.96)_0%,rgba(0,0,0,0.75)_42%,rgba(0,0,0,0.35)_68%,transparent_84%)] sm:h-48 sm:w-64 dark:sm:h-52 dark:sm:w-72"
+        aria-hidden
+      />
 
       <div
         className="pointer-events-none absolute inset-2 rounded-xl border border-black/[0.08] shadow-[inset_0_0_100px_rgba(0,0,0,0.03)] dark:border-white/[0.08] dark:shadow-[inset_0_0_100px_rgba(255,255,255,0.02)] sm:inset-4 sm:rounded-2xl"
