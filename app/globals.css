@@ -109,12 +109,57 @@
   --shadow-card: 0 1px 0 oklch(1 0 0 / 0.04), 0 16px 48px -16px oklch(0 0 0 / 0.55);
 }
 
+/* Smooth light/dark crossfade via View Transitions API (Chromium/Safari) */
+@keyframes theme-crossfade-out {
+  to {
+    opacity: 0;
+  }
+}
+@keyframes theme-crossfade-in {
+  from {
+    opacity: 0;
+  }
+}
+
+::view-transition-old(root) {
+  animation: theme-crossfade-out 0.42s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+::view-transition-new(root) {
+  animation: theme-crossfade-in 0.42s cubic-bezier(0.4, 0, 0.2, 1) both;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  ::view-transition-old(root),
+  ::view-transition-new(root) {
+    animation: none !important;
+  }
+}
+
+/* Fallback for browsers without View Transitions */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *::before,
+html.theme-transition *::after {
+  transition:
+    background-color 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    color 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    border-color 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    fill 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    stroke 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    box-shadow 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+    outline-color 0.42s cubic-bezier(0.4, 0, 0.2, 1) !important;
+}
+
 @layer base {
   * {
     border-color: var(--color-border);
   }
   html {
     scroll-behavior: auto;
+    color-scheme: light;
+  }
+  html.dark {
+    color-scheme: dark;
   }
   section[id] {
     scroll-margin-top: 5.5rem;
@@ -131,6 +176,14 @@
     -webkit-font-smoothing: antialiased;
     -moz-osx-font-smoothing: grayscale;
     overflow-x: hidden;
+    transition:
+      background-color 0.42s cubic-bezier(0.4, 0, 0.2, 1),
+      color 0.42s cubic-bezier(0.4, 0, 0.2, 1);
+  }
+  @media (prefers-reduced-motion: reduce) {
+    body {
+      transition: none;
+    }
   }
   h1,
   h2,

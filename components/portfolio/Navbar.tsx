@@ -198,13 +198,15 @@ export function Navbar() {
                 aria-label="Toggle theme"
                 onClick={toggle}
                 className={cn(
-                  "grid h-9 w-9 place-items-center rounded-lg border transition-colors",
+                  "grid h-9 w-9 place-items-center rounded-lg border transition-[color,background-color,border-color,box-shadow] duration-[420ms] ease-[cubic-bezier(0.4,0,0.2,1)]",
                   onHero
                     ? "border-foreground/25 bg-white/70 text-foreground shadow-[0_0_24px_rgba(251,191,36,0.18)] backdrop-blur-sm hover:border-foreground/40 hover:text-foreground dark:border-white/15 dark:bg-black/20 dark:text-white/80 dark:shadow-[0_0_24px_rgba(251,191,36,0.22)] dark:hover:border-white/30 dark:hover:text-white"
                     : "border-border text-foreground/80 hover:border-primary/50 hover:text-primary",
                 )}
               >
-                {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                <span className="grid place-items-center transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)]">
+                  {theme === "dark" ? <Sun size={16} /> : <Moon size={16} />}
+                </span>
               </button>
               <button
                 type="button"
