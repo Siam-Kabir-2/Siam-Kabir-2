@@ -282,6 +282,7 @@
 
   .testimonials-marquee-track {
     animation-duration: 95s;
+    gap: 0.85rem;
   }
 }
 
