@@ -1,3 +1,4 @@
+import Image from "next/image";
 import { ExternalLink, Github } from "lucide-react";
 import type { Project } from "./projects-data";
 import { getProjectDomain } from "./projects-data";
@@ -35,11 +36,21 @@ export function ProjectPreviewFrame({
 
       <div className={`relative overflow-hidden bg-muted/30 ${aspectClass}`}>
         {project.image ? (
-          <img
+          <Image
             src={project.image}
             alt={`${project.title} preview`}
-            loading="lazy"
-            className={`h-full w-full object-cover ${project.mobilePreview ? "object-center" : "object-top"}`}
+            fill
+            sizes={
+              project.mobilePreview
+                ? "(max-width: 640px) 60vw, 220px"
+                : "(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 560px"
+            }
+            quality={75}
+            className={
+              project.imageFit === "contain"
+                ? "object-contain object-center"
+                : `object-cover ${project.mobilePreview ? "object-center" : "object-top"}`
+            }
           />
         ) : (
           <div className="absolute inset-3 flex items-center justify-center rounded-lg border border-dashed border-border/70 bg-muted/20">

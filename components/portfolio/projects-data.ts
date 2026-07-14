@@ -1,5 +1,6 @@
 export type ProjectCategory =
   | "Business Website"
+  | "Portfolio Website"
   | "Crypto Landing Page"
   | "Membership Website"
   | "Masterclass Website"
@@ -17,6 +18,7 @@ export interface Project {
   description: string;
   live: string;
   image?: string;
+  imageFit?: "cover" | "contain";
   featured?: boolean;
   mobilePreview?: boolean;
   stack?: string[];
@@ -68,6 +70,19 @@ export const allProjects: Project[] = [
     featured: true,
     stack: ["Next.js", "Framer Motion", "GSAP", "Lenis", "Vercel"],
     role: "Developer",
+  },
+  {
+    id: "personal-portfolio",
+    title: "Personal Portfolio",
+    type: "Portfolio Website",
+    description:
+      "My personal portfolio — responsive, theme-aware, and built with deliberate motion for a clear presentation of services, projects, and client work.",
+    live: "https://siam-kabir.com",
+    image: "/projects/myportfolio.png",
+    featured: true,
+    stack: ["Next.js", "GSAP", "Tailwind CSS", "Framer Motion", "Resend", "Vercel"],
+    role: "Designer & Developer",
+    repo: "https://github.com/Siam-Kabir-2/Siam-Kabir-2",
   },
   {
     id: "getwebsite-now",
@@ -212,10 +227,16 @@ export const allProjects: Project[] = [
   },
   {
     id: "siamcoin-bot",
-    title: "SiamCoin Telegram Mini App",
+    title: "SiamCoin",
     type: "Telegram Mini App",
-    description: "Telegram crypto mini app trial with in-app flows built for Telegram WebApp users.",
+    description:
+      "Tap-to-earn crypto mini app inside Telegram — gamification, tasks, referrals, leaderboards, and TON wallet connect with real-time scoring.",
     live: "https://t.me/siamcoin_bot/siamcoin?startapp=5126911206",
+    image: "/projects/siamcoinMiniApp.png",
+    imageFit: "contain",
+    featured: true,
+    stack: ["Next.js", "TypeScript", "Prisma", "PostgreSQL", "Tailwind CSS", "Telegram Bot API"],
+    role: "Full-stack",
   },
   {
     id: "flappy-bird",

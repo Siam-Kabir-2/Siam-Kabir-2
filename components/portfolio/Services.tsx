@@ -13,6 +13,7 @@ import {
 } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { isMobileViewport } from "@/lib/breakpoints";
+import { scrollToSectionId } from "@/lib/scroll-to-section";
 import { SectionHeader } from "./SectionHeader";
 
 const services: {
@@ -195,6 +196,11 @@ export function Services() {
           </p>
           <a
             href="#contact"
+            onClick={(event) => {
+              event.preventDefault();
+              window.history.pushState(null, "", "/#contact");
+              scrollToSectionId("contact");
+            }}
             className="group inline-flex shrink-0 items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground transition-colors hover:text-primary"
           >
             Contact me

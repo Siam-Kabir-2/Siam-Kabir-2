@@ -10,14 +10,31 @@ import {
   Github,
   Instagram,
   ArrowUpRight,
+  Download,
 } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
 import { SectionHeader } from "./SectionHeader";
 import { toast } from "sonner";
 
+const RESUME_PDF = "/Siam-Kabir-Resume.pdf";
+
 const XIcon = ({ size = 16 }: { size?: number }) => (
   <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
     <path d="M18.244 2H21l-6.52 7.451L22 22h-6.828l-4.77-6.243L4.8 22H2l7.02-8.02L2 2h6.914l4.34 5.74L18.244 2Zm-2.39 18h1.66L8.24 4H6.475l9.379 16Z" />
+  </svg>
+);
+
+const FiverrIcon = ({ size = 16 }: { size?: number }) => (
+  <svg
+    width={size}
+    height={size}
+    viewBox="0 0 24 24"
+    fill="currentColor"
+    aria-hidden
+  >
+    <path d="M2.4 9.35h3.25V7.55c0-2.55 1.4-4.2 3.95-4.2.65 0 1.3.08 1.95.25v3.05c-.4-.1-.85-.18-1.3-.18-1.05 0-1.65.6-1.65 1.65v1.23h2.75v2.55H8.6v8.55H5.65v-8.55H2.4V9.35z" />
+    <rect x="14.7" y="9.35" width="3.6" height="11.1" rx="0.35" />
+    <circle cx="16.5" cy="5.55" r="2.2" />
   </svg>
 );
 
@@ -40,12 +57,19 @@ const infos = [
     value: "siam-kabir",
     href: "https://www.linkedin.com/in/siam-kabir-1517b42b2/",
   },
+  {
+    icon: FiverrIcon,
+    label: "Fiverr",
+    value: "siam_kk",
+    href: "https://www.fiverr.com/siam_kk",
+  },
   { icon: MapPin, label: "Location", value: "Rangpur, Bangladesh" },
 ];
 
 const socials = [
   { icon: Github, href: "https://github.com/Siam-Kabir-2", label: "GitHub" },
   { icon: Linkedin, href: "https://www.linkedin.com/in/siam-kabir-1517b42b2/", label: "LinkedIn" },
+  { icon: FiverrIcon, href: "https://www.fiverr.com/siam_kk", label: "Fiverr" },
   { icon: XIcon, href: "https://x.com/_Siam__", label: "X" },
   { icon: Instagram, href: "https://www.instagram.com/__the.lost.oni_/", label: "Instagram" },
   { icon: Send, href: "https://t.me/kurosaki106", label: "Telegram" },
@@ -155,6 +179,20 @@ export function Contact() {
               <p className="mt-3 text-sm leading-relaxed text-muted-foreground sm:text-[15px]">
                 Reach out directly or send a message — I usually reply within 24 hours.
               </p>
+              <a
+                href={RESUME_PDF}
+                download="Siam-Kabir-Resume.pdf"
+                className="group mt-4 inline-flex items-center gap-2 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground/80 transition-[color,gap] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:gap-2.5 hover:text-primary"
+              >
+                <Download
+                  size={14}
+                  className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0.5"
+                  aria-hidden
+                />
+                <span className="relative after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-primary/70 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:after:scale-x-100">
+                  Download resume
+                </span>
+              </a>
             </div>
 
             <div className="mt-5 space-y-3">

@@ -2,11 +2,13 @@
 
 import { useRef, useState } from "react";
 import Image from "next/image";
-import { ArrowRight } from "lucide-react";
+import { ArrowRight, Download } from "lucide-react";
 import { gsap, useGSAP } from "@/lib/gsap";
 import { isMobileViewport } from "@/lib/breakpoints";
+import { scrollToSectionId } from "@/lib/scroll-to-section";
 
 const PROFILE_IMAGE = "/profile.png";
+const RESUME_PDF = "/Siam-Kabir-Resume.pdf";
 
 const metaItems = [
   {
@@ -51,9 +53,10 @@ function ProfilePortrait() {
           <div className="about-portrait-fade absolute inset-0 -translate-y-4 sm:-translate-y-6 lg:-translate-y-8">
             <Image
               src={PROFILE_IMAGE}
-              alt="MD. Siam Kabir — full-stack web developer"
+              alt="MD. Siam Kabir — full-stack web developer based in Rangpur, Bangladesh"
               fill
               priority
+              quality={82}
               sizes="(max-width: 1024px) 100vw, 45vw"
               className="object-contain object-bottom"
               onError={() => setHasError(true)}
@@ -143,8 +146,9 @@ export function About() {
         gsap.to(".about-cta", {
           opacity: 1,
           y: 0,
-          duration: 0.6,
-          ease: "power2.out",
+          duration: 0.75,
+          stagger: 0.1,
+          ease: "power3.out",
           scrollTrigger: {
             trigger: ".about-bottom-cta",
             start: "top 92%",
@@ -217,17 +221,34 @@ export function About() {
                 ))}
               </div>
 
-              <div className="about-bottom-cta mt-6 border-t border-border/70 pt-6 sm:mt-8 sm:pt-8">
+              <div className="about-bottom-cta mt-6 flex flex-col gap-3 border-t border-border/70 pt-6 sm:mt-8 sm:flex-row sm:items-center sm:gap-10 sm:pt-8">
                 <a
                   href="#contact"
-                  className="about-cta group inline-flex w-full items-center justify-center gap-2 rounded-lg border border-border/70 bg-card/35 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground transition-colors hover:border-primary/30 hover:bg-card/55 hover:text-primary sm:w-auto sm:justify-start sm:border-0 sm:bg-transparent sm:px-0 sm:py-0"
+                  onClick={(event) => {
+                    event.preventDefault();
+                    window.history.pushState(null, "", "/#contact");
+                    scrollToSectionId("contact");
+                  }}
+                  className="about-cta group relative inline-flex w-full items-center justify-center gap-2.5 rounded-lg border border-border/70 bg-card/35 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.16em] text-foreground transition-[color,background-color,border-color,gap] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-primary/30 hover:bg-card/55 hover:text-primary sm:w-auto sm:justify-start sm:gap-2 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:after:absolute sm:after:inset-x-0 sm:after:-bottom-1 sm:after:h-px sm:after:origin-left sm:after:scale-x-0 sm:after:bg-primary/70 sm:after:transition-transform sm:after:duration-300 sm:after:ease-[cubic-bezier(0.22,1,0.36,1)] sm:hover:gap-2.5 sm:hover:after:scale-x-100"
                 >
                   Contact me
                   <ArrowRight
                     size={14}
-                    className="transition-transform group-hover:translate-x-0.5"
+                    className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-x-1"
                     aria-hidden
                   />
+                </a>
+                <a
+                  href={RESUME_PDF}
+                  download="Siam-Kabir-Resume.pdf"
+                  className="about-cta group relative inline-flex w-full items-center justify-center gap-2.5 rounded-lg border border-border/70 bg-card/35 px-5 py-3.5 font-mono text-[11px] uppercase tracking-[0.16em] text-muted-foreground transition-[color,background-color,border-color,gap] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:border-primary/30 hover:bg-card/55 hover:text-primary sm:w-auto sm:justify-start sm:gap-2 sm:border-0 sm:bg-transparent sm:px-0 sm:py-0 sm:after:absolute sm:after:inset-x-0 sm:after:-bottom-1 sm:after:h-px sm:after:origin-left sm:after:scale-x-0 sm:after:bg-primary/70 sm:after:transition-transform sm:after:duration-300 sm:after:ease-[cubic-bezier(0.22,1,0.36,1)] sm:hover:gap-2.5 sm:hover:after:scale-x-100"
+                >
+                  <Download
+                    size={14}
+                    className="transition-transform duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] group-hover:translate-y-0.5"
+                    aria-hidden
+                  />
+                  Download resume
                 </a>
               </div>
             </div>

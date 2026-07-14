@@ -4,7 +4,6 @@ import { useRef } from "react";
 import { Briefcase, GraduationCap, School } from "lucide-react";
 import type { LucideIcon } from "lucide-react";
 import { gsap, ScrollTrigger, useGSAP } from "@/lib/gsap";
-import { isMobileViewport } from "@/lib/breakpoints";
 import { SectionHeader } from "./SectionHeader";
 
 const items: {
@@ -46,7 +45,6 @@ export function Timeline() {
       if (!listRef.current) return;
 
       const reducedMotion = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
-      const mobile = isMobileViewport();
       const entries = gsap.utils.toArray<HTMLElement>(
         listRef.current.querySelectorAll(".journey-entry"),
       );
@@ -58,31 +56,24 @@ export function Timeline() {
         return;
       }
 
+      gsap.set(entries, { autoAlpha: 1 });
+
       if (lineProgress) {
-        gsap.fromTo(
-          lineProgress,
-          { scaleY: 0 },
-          {
-            scaleY: 1,
-            ease: mobile ? "power1.out" : "none",
-            duration: mobile ? 0.8 : undefined,
-            scrollTrigger: mobile
-              ? {
-                  trigger: listRef.current,
-                  start: "top 80%",
-                  once: true,
-                }
-              : {
-                  trigger: listRef.current,
-                  start: "top 78%",
-                  end: "bottom 65%",
-                  scrub: 0.45,
-                },
+        gsap.set(lineProgress, { scaleY: 0, transformOrigin: "top center" });
+        gsap.to(lineProgress, {
+          scaleY: 1,
+          ease: "none",
+          scrollTrigger: {
+            trigger: listRef.current,
+            start: "top 75%",
+            end: "bottom 55%",
+            scrub: 1.1,
+            invalidateOnRefresh: true,
           },
-        );
+        });
       }
 
-      entries.forEach((entry, index) => {
+      entries.forEach((entry) => {
         const card = entry.querySelector<HTMLElement>(".journey-card");
         const dot = entry.querySelector<HTMLElement>(".journey-dot");
         const reveals = entry.querySelectorAll<HTMLElement>(".journey-reveal");
@@ -90,28 +81,19 @@ export function Timeline() {
         if (card) {
           gsap.fromTo(
             card,
-            mobile
-              ? { opacity: 0, y: 24 }
-              : { opacity: 0.35, x: -36, filter: "blur(6px)" },
+            { autoAlpha: 0, y: 28 },
             {
-              opacity: 1,
+              autoAlpha: 1,
               y: 0,
-              x: 0,
-              filter: "blur(0px)",
-              ease: mobile ? "power2.out" : "none",
-              duration: mobile ? 0.55 : undefined,
-              scrollTrigger: mobile
-                ? {
-                    trigger: entry,
-                    start: "top 90%",
-                    once: true,
-                  }
-                : {
-                    trigger: entry,
-                    start: "top 88%",
-                    end: "top 58%",
-                    scrub: 0.5,
-                  },
+              duration: 0.75,
+              ease: "power3.out",
+              force3D: true,
+              scrollTrigger: {
+                trigger: entry,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
             },
           );
         }
@@ -119,25 +101,20 @@ export function Timeline() {
         if (reveals.length) {
           gsap.fromTo(
             reveals,
-            { opacity: mobile ? 0 : 0.2, y: mobile ? 10 : 14 },
+            { autoAlpha: 0, y: 12 },
             {
-              opacity: 1,
+              autoAlpha: 1,
               y: 0,
-              ease: mobile ? "power2.out" : "none",
-              duration: mobile ? 0.45 : undefined,
-              stagger: mobile ? 0.08 : 0.12,
-              scrollTrigger: mobile
-                ? {
-                    trigger: entry,
-                    start: "top 88%",
-                    once: true,
-                  }
-                : {
-                    trigger: entry,
-                    start: "top 82%",
-                    end: "top 52%",
-                    scrub: 0.45,
-                  },
+              duration: 0.55,
+              ease: "power2.out",
+              stagger: 0.07,
+              force3D: true,
+              scrollTrigger: {
+                trigger: entry,
+                start: "top 86%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
             },
           );
         }
@@ -145,40 +122,36 @@ export function Timeline() {
         if (dot) {
           gsap.fromTo(
             dot,
-            { scale: 0.6, opacity: 0.4 },
+            { scale: 0.72, autoAlpha: 0.35 },
             {
               scale: 1,
-              opacity: 1,
-              ease: mobile ? "power2.out" : "none",
-              duration: mobile ? 0.4 : undefined,
-              scrollTrigger: mobile
-                ? {
-                    trigger: entry,
-                    start: "top 90%",
-                    once: true,
-                  }
-                : {
-                    trigger: entry,
-                    start: "top 85%",
-                    end: "top 62%",
-                    scrub: 0.4,
-                  },
+              autoAlpha: 1,
+              duration: 0.5,
+              ease: "power2.out",
+              force3D: true,
+              scrollTrigger: {
+                trigger: entry,
+                start: "top 88%",
+                toggleActions: "play none none reverse",
+                invalidateOnRefresh: true,
+              },
             },
           );
         }
 
         ScrollTrigger.create({
           trigger: entry,
-          start: mobile ? "top 72%" : "top 62%",
-          end: "bottom 38%",
+          start: "top 68%",
+          end: "bottom 35%",
           onEnter: () => entry.classList.add("journey-entry-active"),
           onLeave: () => entry.classList.remove("journey-entry-active"),
           onEnterBack: () => entry.classList.add("journey-entry-active"),
           onLeaveBack: () => entry.classList.remove("journey-entry-active"),
+          invalidateOnRefresh: true,
         });
       });
 
-      ScrollTrigger.refresh();
+      requestAnimationFrame(() => ScrollTrigger.refresh());
     },
     { scope: sectionRef },
   );
@@ -203,7 +176,7 @@ export function Timeline() {
             aria-hidden
           />
           <div
-            className="journey-line-progress absolute bottom-3 left-[11px] top-3 w-px origin-top bg-gradient-to-b from-primary via-primary/70 to-primary/30 sm:left-[13px]"
+            className="journey-line-progress absolute bottom-3 left-[11px] top-3 w-px origin-top will-change-transform bg-gradient-to-b from-primary via-primary/70 to-primary/30 sm:left-[13px]"
             aria-hidden
           />
 
@@ -217,16 +190,16 @@ export function Timeline() {
                   className="journey-entry group/entry relative pl-9 sm:pl-12"
                 >
                   <div
-                    className="journey-dot absolute left-0 top-7 z-10 grid h-[22px] w-[22px] place-items-center rounded-full border border-primary/25 bg-background shadow-[0_0_0_4px_var(--background)] transition-[border-color,box-shadow] duration-500 group-[.journey-entry-active]/entry:border-primary/60 group-[.journey-entry-active]/entry:shadow-[0_0_0_4px_var(--background),0_0_20px_color-mix(in_oklab,var(--primary)_35%,transparent)] sm:top-8 sm:h-6 sm:w-6"
+                    className="journey-dot absolute left-0 top-7 z-10 grid h-[22px] w-[22px] place-items-center rounded-full border border-primary/25 bg-background shadow-[0_0_0_4px_var(--background)] transition-[border-color,box-shadow,transform] duration-500 ease-out will-change-transform group-[.journey-entry-active]/entry:border-primary/60 group-[.journey-entry-active]/entry:shadow-[0_0_0_4px_var(--background),0_0_20px_color-mix(in_oklab,var(--primary)_35%,transparent)] sm:top-8 sm:h-6 sm:w-6"
                     aria-hidden
                   >
-                    <span className="journey-dot-inner h-1.5 w-1.5 rounded-full bg-primary/50 transition-all duration-500 group-[.journey-entry-active]/entry:scale-125 group-[.journey-entry-active]/entry:bg-primary sm:h-2 sm:w-2" />
+                    <span className="journey-dot-inner h-1.5 w-1.5 rounded-full bg-primary/50 transition-all duration-500 ease-out group-[.journey-entry-active]/entry:scale-125 group-[.journey-entry-active]/entry:bg-primary sm:h-2 sm:w-2" />
                   </div>
 
-                  <div className="journey-card premium-frame rounded-2xl border border-border/70 bg-card/35 p-5 backdrop-blur-sm transition-[border-color,background-color,box-shadow] duration-500 hover:border-primary/25 hover:bg-card/50 group-[.journey-entry-active]/entry:border-primary/30 group-[.journey-entry-active]/entry:bg-card/55 group-[.journey-entry-active]/entry:shadow-[var(--shadow-elegant)] sm:p-7">
+                  <div className="journey-card premium-frame rounded-2xl border border-border/70 bg-card/35 p-5 backdrop-blur-sm transition-[border-color,background-color,box-shadow] duration-500 ease-out will-change-transform hover:border-primary/25 hover:bg-card/50 group-[.journey-entry-active]/entry:border-primary/30 group-[.journey-entry-active]/entry:bg-card/55 group-[.journey-entry-active]/entry:shadow-[var(--shadow-elegant)] sm:p-7">
                     <div className="journey-reveal flex flex-wrap items-start justify-between gap-4">
                       <div className="flex items-start gap-3">
-                        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border/60 bg-background/60 text-primary transition-colors duration-500 group-[.journey-entry-active]/entry:border-primary/30 group-[.journey-entry-active]/entry:bg-primary/10">
+                        <div className="grid h-10 w-10 shrink-0 place-items-center rounded-lg border border-border/60 bg-background/60 text-primary transition-colors duration-500 ease-out group-[.journey-entry-active]/entry:border-primary/30 group-[.journey-entry-active]/entry:bg-primary/10">
                           <Icon size={17} aria-hidden />
                         </div>
                         <div>

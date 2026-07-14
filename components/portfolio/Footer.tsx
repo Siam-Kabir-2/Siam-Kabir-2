@@ -23,6 +23,13 @@ export function Footer() {
           <p className="mt-1 font-mono text-[10px] uppercase tracking-[0.25em] text-muted-foreground">
             Full-stack developer
           </p>
+          <a
+            href="/Siam-Kabir-Resume.pdf"
+            download="Siam-Kabir-Resume.pdf"
+            className="group relative mt-3 inline-block font-mono text-[10px] uppercase tracking-[0.18em] text-muted-foreground transition-colors duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:text-primary after:absolute after:inset-x-0 after:-bottom-0.5 after:h-px after:origin-left after:scale-x-0 after:bg-primary/60 after:transition-transform after:duration-300 after:ease-[cubic-bezier(0.22,1,0.36,1)] hover:after:scale-x-100"
+          >
+            Download resume
+          </a>
         </div>
 
         <div className="flex items-center gap-2">
@@ -32,7 +39,7 @@ export function Footer() {
               href={s.href}
               target="_blank"
               rel="noreferrer"
-              className="grid h-9 w-9 place-items-center border border-border text-foreground/60 transition hover:border-primary/40 hover:text-primary"
+              className="grid h-9 w-9 place-items-center border border-border text-foreground/60 transition-[color,border-color,background-color,transform] duration-300 ease-[cubic-bezier(0.22,1,0.36,1)] hover:-translate-y-0.5 hover:border-primary/40 hover:text-primary"
             >
               <s.icon size={14} />
             </a>

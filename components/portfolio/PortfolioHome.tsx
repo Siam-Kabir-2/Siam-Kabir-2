@@ -1,17 +1,40 @@
 "use client";
 
 import { useEffect } from "react";
+import dynamic from "next/dynamic";
 import { About } from "@/components/portfolio/About";
-import { Contact } from "@/components/portfolio/Contact";
 import { Footer } from "@/components/portfolio/Footer";
 import { Hero } from "@/components/portfolio/Hero";
 import { Navbar } from "@/components/portfolio/Navbar";
-import { Projects } from "@/components/portfolio/Projects";
-import { Services } from "@/components/portfolio/Services";
-import { Skills } from "@/components/portfolio/Skills";
-import { Testimonials } from "@/components/portfolio/Testimonials";
-import { Timeline } from "@/components/portfolio/Timeline";
 import { ScrollTrigger } from "@/lib/gsap";
+
+const Skills = dynamic(
+  () => import("@/components/portfolio/Skills").then((m) => ({ default: m.Skills })),
+  { ssr: true },
+);
+const Services = dynamic(
+  () => import("@/components/portfolio/Services").then((m) => ({ default: m.Services })),
+  { ssr: true },
+);
+const Projects = dynamic(
+  () => import("@/components/portfolio/Projects").then((m) => ({ default: m.Projects })),
+  { ssr: true },
+);
+const Testimonials = dynamic(
+  () =>
+    import("@/components/portfolio/Testimonials").then((m) => ({
+      default: m.Testimonials,
+    })),
+  { ssr: true },
+);
+const Timeline = dynamic(
+  () => import("@/components/portfolio/Timeline").then((m) => ({ default: m.Timeline })),
+  { ssr: true },
+);
+const Contact = dynamic(
+  () => import("@/components/portfolio/Contact").then((m) => ({ default: m.Contact })),
+  { ssr: true },
+);
 
 export function PortfolioHome() {
   useEffect(() => {

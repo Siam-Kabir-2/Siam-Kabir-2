@@ -1,20 +1,21 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { ArrowRight, Github, Linkedin, Instagram, Send } from "lucide-react";
+import { ArrowRight, Github, Linkedin, Send } from "lucide-react";
 import { scrollToSectionId } from "@/lib/scroll-to-section";
 
-const XIcon = (props: { size?: number }) => (
-  <svg width={props.size ?? 16} height={props.size ?? 16} viewBox="0 0 24 24" fill="currentColor">
-    <path d="M18.244 2H21l-6.52 7.451L22 22h-6.828l-4.77-6.243L4.8 22H2l7.02-8.02L2 2h6.914l4.34 5.74L18.244 2Zm-2.39 18h1.66L8.24 4H6.475l9.379 16Z" />
+const FiverrIcon = ({ size = 16 }: { size?: number }) => (
+  <svg width={size} height={size} viewBox="0 0 24 24" fill="currentColor" aria-hidden>
+    <path d="M2.4 9.35h3.25V7.55c0-2.55 1.4-4.2 3.95-4.2.65 0 1.3.08 1.95.25v3.05c-.4-.1-.85-.18-1.3-.18-1.05 0-1.65.6-1.65 1.65v1.23h2.75v2.55H8.6v8.55H5.65v-8.55H2.4V9.35z" />
+    <rect x="14.7" y="9.35" width="3.6" height="11.1" rx="0.35" />
+    <circle cx="16.5" cy="5.55" r="2.2" />
   </svg>
 );
 
 const socials = [
   { href: "https://github.com/Siam-Kabir-2", icon: Github, label: "GitHub" },
   { href: "https://www.linkedin.com/in/siam-kabir-1517b42b2/", icon: Linkedin, label: "LinkedIn" },
-  { href: "https://x.com/_Siam__", icon: XIcon, label: "X" },
-  { href: "https://www.instagram.com/__the.lost.oni_/", icon: Instagram, label: "Instagram" },
+  { href: "https://www.fiverr.com/siam_kk", icon: FiverrIcon, label: "Fiverr" },
   { href: "https://t.me/kurosaki106", icon: Send, label: "Telegram" },
 ];
 
@@ -46,6 +47,15 @@ export function Hero() {
       activeVideoRef.current = "a";
     };
 
+    const ensureVideoBSource = () => {
+      if (videoB.querySelector("source")) return;
+      const source = document.createElement("source");
+      source.src = "/pfBg.mp4";
+      source.type = "video/mp4";
+      videoB.appendChild(source);
+      videoB.load();
+    };
+
     const playActive = () => {
       const active = activeVideoRef.current === "a" ? videoA : videoB;
       void active.play().catch(() => {});
@@ -71,6 +81,8 @@ export function Hero() {
 
       const remaining = duration - current.currentTime;
       if (remaining > CROSSFADE_SECONDS) return;
+
+      ensureVideoBSource();
 
       if (next.paused) {
         next.currentTime = 0;
@@ -144,12 +156,10 @@ export function Hero() {
           ref={videoBRef}
           muted
           playsInline
-          preload="metadata"
+          preload="none"
           className={videoClassName}
           style={{ opacity: 0 }}
-        >
-          <source src="/pfBg.mp4" type="video/mp4" />
-        </video>
+        />
       </div>
 
       <div className="absolute inset-0 bg-white/65 dark:bg-black/55" aria-hidden />

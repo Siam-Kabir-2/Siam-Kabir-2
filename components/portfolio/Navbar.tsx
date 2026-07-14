@@ -19,6 +19,7 @@ import {
 import { useTheme } from "@/lib/theme";
 import { cn } from "@/lib/utils";
 import { getHashId, scrollToSectionId } from "@/lib/scroll-to-section";
+import { getLenisInstance } from "@/lib/lenis-instance";
 
 const links: { href: string; label: string; icon: LucideIcon }[] = [
   { href: "/#about", label: "About", icon: User },
@@ -72,8 +73,10 @@ export function Navbar() {
     if (!open) return;
     const previousOverflow = document.body.style.overflow;
     document.body.style.overflow = "hidden";
+    getLenisInstance()?.stop();
     return () => {
       document.body.style.overflow = previousOverflow;
+      getLenisInstance()?.start();
     };
   }, [open]);
 
@@ -90,9 +93,18 @@ export function Navbar() {
     if (pathname !== "/") return;
 
     event.preventDefault();
-    setOpen(false);
     setActiveHash(`#${id}`);
     window.history.pushState(null, "", `/#${id}`);
+
+    const wasOpen = open;
+    setOpen(false);
+
+    // Let the mobile drawer unmount / unlock body scroll before animating
+    if (wasOpen) {
+      window.setTimeout(() => scrollToSectionId(id), 80);
+      return;
+    }
+
     scrollToSectionId(id);
   };
 
