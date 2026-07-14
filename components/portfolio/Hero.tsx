@@ -14,7 +14,7 @@ const FiverrIcon = ({ size = 16 }: { size?: number }) => (
 
 const socials = [
   { href: "https://github.com/Siam-Kabir-2", icon: Github, label: "GitHub" },
-  { href: "https://www.linkedin.com/in/siam-kabir-1517b42b2/", icon: Linkedin, label: "LinkedIn" },
+  { href: "https://www.linkedin.com/in/md-siam-kabir/", icon: Linkedin, label: "LinkedIn" },
   { href: "https://www.fiverr.com/siam_kk", icon: FiverrIcon, label: "Fiverr" },
   { href: "https://t.me/kurosaki106", icon: Send, label: "Telegram" },
 ];

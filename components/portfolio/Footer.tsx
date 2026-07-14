@@ -8,7 +8,7 @@ const XIcon = ({ size = 16 }: { size?: number }) => (
 
 const socials = [
   { icon: Github, href: "https://github.com/Siam-Kabir-2" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/siam-kabir-1517b42b2/" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/md-siam-kabir/" },
   { icon: XIcon, href: "https://x.com/_Siam__" },
   { icon: Instagram, href: "https://www.instagram.com/__the.lost.oni_/" },
   { icon: Send, href: "https://t.me/kurosaki106" },

@@ -26,7 +26,7 @@ export const siteConfig = {
   ],
   socials: {
     github: "https://github.com/Siam-Kabir-2",
-    linkedin: "https://www.linkedin.com/in/siam-kabir-1517b42b2/",
+    linkedin: "https://www.linkedin.com/in/md-siam-kabir/",
     fiverr: "https://www.fiverr.com/siam_kk",
     twitter: "https://x.com/_Siam__",
     instagram: "https://www.instagram.com/__the.lost.oni_/",

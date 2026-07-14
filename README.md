@@ -8,7 +8,7 @@ Building modern, responsive, and performance-driven web products for real users 
 
 [![Portfolio](https://img.shields.io/badge/Portfolio-siam--kabir.com-2563EB?style=for-the-badge&logo=googlechrome&logoColor=white)](https://siam-kabir.com)
 [![Email](https://img.shields.io/badge/Email-mdsiamkabir1@gmail.com-EA4335?style=for-the-badge&logo=gmail&logoColor=white)](mailto:mdsiamkabir1@gmail.com)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Siam%20Kabir-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/siam-kabir-1517b42b2/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Siam%20Kabir-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/md-siam-kabir/)
 
 </div>
 
@@ -95,7 +95,7 @@ BSc in Computer Science · 3rd Year, 1st Semester
 <div align="center">
 
 [![GitHub](https://img.shields.io/badge/GitHub-Siam--Kabir--2-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Siam-Kabir-2)
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/siam-kabir-1517b42b2/)
+[![LinkedIn](https://img.shields.io/badge/LinkedIn-Connect-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://www.linkedin.com/in/md-siam-kabir/)
 [![X](https://img.shields.io/badge/X-@__Siam__-000000?style=for-the-badge&logo=x&logoColor=white)](https://x.com/_Siam__)
 [![Instagram](https://img.shields.io/badge/Instagram-@__the.lost.oni_-E4405F?style=for-the-badge&logo=instagram&logoColor=white)](https://www.instagram.com/__the.lost.oni_/)
 [![Telegram](https://img.shields.io/badge/Telegram-@kurosaki106-26A5E4?style=for-the-badge&logo=telegram&logoColor=white)](https://t.me/kurosaki106)

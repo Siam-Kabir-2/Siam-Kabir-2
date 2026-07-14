@@ -55,7 +55,7 @@ const infos = [
     icon: Linkedin,
     label: "LinkedIn",
     value: "siam-kabir",
-    href: "https://www.linkedin.com/in/siam-kabir-1517b42b2/",
+    href: "https://www.linkedin.com/in/md-siam-kabir/",
   },
   {
     icon: FiverrIcon,
@@ -68,7 +68,7 @@ const infos = [
 
 const socials = [
   { icon: Github, href: "https://github.com/Siam-Kabir-2", label: "GitHub" },
-  { icon: Linkedin, href: "https://www.linkedin.com/in/siam-kabir-1517b42b2/", label: "LinkedIn" },
+  { icon: Linkedin, href: "https://www.linkedin.com/in/md-siam-kabir/", label: "LinkedIn" },
   { icon: FiverrIcon, href: "https://www.fiverr.com/siam_kk", label: "Fiverr" },
   { icon: XIcon, href: "https://x.com/_Siam__", label: "X" },
   { icon: Instagram, href: "https://www.instagram.com/__the.lost.oni_/", label: "Instagram" },
